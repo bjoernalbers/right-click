@@ -1,0 +1,32 @@
+#!/bin/bash
+# Enable right-click on Apple Magic Mouse
+
+set -u
+
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin
+
+log_prefix="right-click"
+
+log() {
+	local message="$1"
+	echo "${log_prefix}: ${message}"
+}
+
+loggedInUser() {
+	local user=$(stat -f %Su /dev/console)
+
+	if [ -z "${user}" ]; then exit 1; fi
+	if [ "${user}" = 'root' ]; then exit 1; fi
+	echo "${user}"
+}
+
+if ! username=$(loggedInUser); then
+	>&2 log "ERROR: User must be logged in."
+	exit 1
+fi
+
+for domain in com.apple.driver.AppleBluetoothMultitouch.mouse com.apple.AppleMultitouchMouse; do
+	sudo -u "${username}" defaults write "${domain}" MouseButtonMode TwoButton
+done
+
+log "Please restart the Mac to apply the changes!"
