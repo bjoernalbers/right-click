@@ -24,5 +24,5 @@ currently logged-in user in order to automatically enable right-click.
 ## Usage
 
 1. Make sure the user is logged-in
-2. Deploy this package on Mac
+2. Download and install [latest release of this package](https://github.com/bjoernalbers/right-click/releases/latest)
 3. Restart Mac
